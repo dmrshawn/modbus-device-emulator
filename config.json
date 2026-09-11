@@ -1,0 +1,25 @@
+{
+  "server": {
+    "host": "0.0.0.0",
+    "port": 5020
+  },
+
+  "devices": [
+    {
+      "name": "tank_1_temperature",
+      "type": "temperature",
+      "register": 100,
+      "frequencyMs": 1000,
+      "min": 20,
+      "max": 80
+    },
+    {
+      "name": "tank_1_level",
+      "type": "level",
+      "register": 101,
+      "frequencyMs": 250,
+      "min": 0,
+      "max": 100
+    }
+  ]
+}
