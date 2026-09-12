@@ -1,6 +1,6 @@
 package main;
 
-public class Emulator
+public class MainEmulator
 {
     public static void Main(String[] args)
     {

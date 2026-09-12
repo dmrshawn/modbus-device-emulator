@@ -1,5 +1,5 @@
 TemperatureSim.class
-main\Emulator.class
 ModbusServer.class
+main\MainEmulator.class
 MainSimulator.class
 RegisterMemory.class
