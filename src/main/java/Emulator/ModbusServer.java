@@ -23,13 +23,10 @@ public class ModbusServer
     public void start() throws ModbusException
     {
 
-        // Create the Modbus TCP slave/server
         slave = ModbusSlaveFactory.createTCPSlave(port, 10, false);
 
-        // Give the slave its register memory
         slave.addProcessImage(1, processImage);
 
-        // Start listening for Modbus TCP clients
         slave.open();
 
         System.out.printf("Modbus TCP server started on port %d%n", port);
@@ -63,9 +60,7 @@ public class ModbusServer
 
     private void checkRegisterAddress(int address)
     {
-        if (address < 0 || address >= processImage.getRegisterCount()) 
-        {
+        if (address < 0 || address >= processImage.getRegisterCount())
             throw new IllegalArgumentException("Invalid register address: " + address);
-        }
     }
 }
