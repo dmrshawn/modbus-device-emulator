@@ -54,7 +54,8 @@ public class Config
 
     private void validateSimulators() 
     {
-        Set<Integer> usedRegisters = new HashSet<Integer>();
+        Set<Integer> usedRegisters = new HashSet<>();
+        Set<String> usedNames = new HashSet<>();
         for(SimulatorSettings simulator : simulators)
         {
             if(simulator == null)
@@ -64,6 +65,10 @@ public class Config
 
             if (!usedRegisters.add(simulator.register))
                 throw new IllegalArgumentException( "Duplicate register address: " + simulator.register );
+
+            if(!usedNames.add(simulator.name))
+                System.err.println( "WARNING - Duplicate simulator name: " + simulator.name );
+            
         }
     }
 
