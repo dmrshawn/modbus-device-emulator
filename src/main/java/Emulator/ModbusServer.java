@@ -1,66 +1,36 @@
 import com.ghgande.j2mod.modbus.ModbusException;
-import com.ghgande.j2mod.modbus.procimg.SimpleProcessImage;
-import com.ghgande.j2mod.modbus.procimg.SimpleRegister;
 import com.ghgande.j2mod.modbus.slave.ModbusSlave;
 import com.ghgande.j2mod.modbus.slave.ModbusSlaveFactory;
+import emulator.RegisterMemory;
 
 public class ModbusServer 
 {
     private final int port;
-    private final SimpleProcessImage processImage;
+    private final RegisterMemory registerMemory;
     private ModbusSlave slave;
 
-    public ModbusServer(int p, int numberOfRegisters) 
+    public ModbusServer(int p, RegisterMemory rm) 
     {
         port = p;
-
-        processImage = new SimpleProcessImage();
-
-        for (int i = 0; i < numberOfRegisters; i++)
-            processImage.addRegister(new SimpleRegister(0));
+        registerMemory = rm;
     }
 
     public void start() throws ModbusException
     {
 
         slave = ModbusSlaveFactory.createTCPSlave(port, 10, false);
-
-        slave.addProcessImage(1, processImage);
-
+        slave.addProcessImage(1, registerMemory.getProcessImage());
         slave.open();
-
         System.out.printf("Modbus TCP server started on port %d%n", port);
     }
 
     public void stop() 
     {
-        if (slave == null) 
+        if (slave == null)
             return;
-        
+
         slave.close();
 
-        System.out.println("Modbus TCP server stopped.");
-    }
-
-    
-    public void setHoldingRegister(int address, int value) 
-    {
-        checkRegisterAddress(address);
-
-        processImage.getRegister(address).setValue(value);
-    }
-
-    
-    public int getHoldingRegister(int address) 
-    {
-        checkRegisterAddress(address);
-
-        return processImage.getRegister(address).getValue();
-    }
-
-    private void checkRegisterAddress(int address)
-    {
-        if (address < 0 || address >= processImage.getRegisterCount())
-            throw new IllegalArgumentException("Invalid register address: " + address);
+        System.out.println("Modbus TCP server stopped");
     }
 }
