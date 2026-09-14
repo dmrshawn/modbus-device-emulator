@@ -1,7 +1,6 @@
-package emulator;
+package emulation;
 
-import com.ghgande.j2mod.modbus.procimg.SimpleProcessImage;
-import com.ghgande.j2mod.modbus.procimg.SimpleRegister;
+import com.ghgande.j2mod.modbus.procimg.*;
 
 public class RegisterMemory 
 {

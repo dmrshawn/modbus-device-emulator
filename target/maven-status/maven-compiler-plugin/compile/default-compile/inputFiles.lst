@@ -1,5 +1,6 @@
-C:\Users\dmrsh\Github Projects\modbus-device-emulator\src\main\java\Emulator\MainEmulator.java
-C:\Users\dmrsh\Github Projects\modbus-device-emulator\src\main\java\Emulator\ModbusServer.java
-C:\Users\dmrsh\Github Projects\modbus-device-emulator\src\main\java\Emulator\RegisterMemory.java
-C:\Users\dmrsh\Github Projects\modbus-device-emulator\src\main\java\Sim\MainSimulator.java
-C:\Users\dmrsh\Github Projects\modbus-device-emulator\src\main\java\Sim\TemperatureSim.java
+C:\Users\dmrsh\Github Projects\modbus-device-emulator\src\main\java\emulation\MainEmulator.java
+C:\Users\dmrsh\Github Projects\modbus-device-emulator\src\main\java\emulation\ModbusServer.java
+C:\Users\dmrsh\Github Projects\modbus-device-emulator\src\main\java\emulation\RegisterMemory.java
+C:\Users\dmrsh\Github Projects\modbus-device-emulator\src\main\java\sim\MainSimulator.java
+C:\Users\dmrsh\Github Projects\modbus-device-emulator\src\main\java\sim\SimTemplate.java
+C:\Users\dmrsh\Github Projects\modbus-device-emulator\src\main\java\sim\TemperatureSim.java

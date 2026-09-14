@@ -22,7 +22,7 @@
         <dependency>
             <groupId>com.ghgande</groupId>
             <artifactId>j2mod</artifactId>
-            <version>3.4.0</version>
+            <version>3.0.0</version>
         </dependency>
 
         <!-- JSON parsing -->
@@ -53,10 +53,35 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>emulator.Emulator</mainClass>
+                            <mainClass>emulation.MainEmulator</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <archive>
+                        <manifest>
+                            <mainClass>emulation.MainEmulator</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
 
         </plugins>

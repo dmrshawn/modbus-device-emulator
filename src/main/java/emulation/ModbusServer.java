@@ -1,7 +1,8 @@
+package emulation;
+
 import com.ghgande.j2mod.modbus.ModbusException;
 import com.ghgande.j2mod.modbus.slave.ModbusSlave;
 import com.ghgande.j2mod.modbus.slave.ModbusSlaveFactory;
-import emulator.RegisterMemory;
 
 public class ModbusServer 
 {

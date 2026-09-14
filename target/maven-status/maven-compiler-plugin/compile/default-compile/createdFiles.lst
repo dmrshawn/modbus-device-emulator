@@ -1,5 +1,6 @@
-TemperatureSim.class
-ModbusServer.class
-main\MainEmulator.class
-MainSimulator.class
-emulator\RegisterMemory.class
+emulation\ModbusServer.class
+emulation\RegisterMemory.class
+sim\TemperatureSim.class
+emulation\MainEmulator.class
+sim\MainSimulator.class
+sim\SimTemplate.class
