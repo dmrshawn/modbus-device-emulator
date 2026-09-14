@@ -2,4 +2,4 @@ TemperatureSim.class
 ModbusServer.class
 main\MainEmulator.class
 MainSimulator.class
-RegisterMemory.class
+emulator\RegisterMemory.class
