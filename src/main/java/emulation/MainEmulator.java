@@ -1,31 +1,25 @@
 package emulation;
 
+import conf.Config;
 import sim.MainSimulator;
-import sim.TemperatureSim;
 
 public class MainEmulator 
 {
     public static void main(String[] args) throws Exception 
     {
-        //REMOVE ONCE CONFIG.JAVA IS IMPLEMENTED
-        int port = 1502;
+        Config config = Config.load("config.json");
 
-        RegisterMemory memory = new RegisterMemory(10);
+        RegisterMemory memory = new RegisterMemory(config.getRequiredRegisterCount());
 
-        ModbusServer server = new ModbusServer(port, memory);
-        MainSimulator simManager = new MainSimulator(memory);
+        ModbusServer server = new ModbusServer(config.network.port, memory);
 
-        simManager.addSimulator(new TemperatureSim(0, 1000, 20.0, 80.0));
+        MainSimulator simulator = new MainSimulator(memory);
 
-        
         server.start();
-        System.out.println("Simulators started.\nPress Ctrl+C to stop.");
 
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> 
-        {
-            simManager.stop(); 
-            server.stop();
-        }));
-        Thread.currentThread().join();
+        for (Config.SimulatorSettings settings : config.simulators)
+            simulator.addSimulator(settings);
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {simulator.stop(); server.stop();}));
     }
 }

@@ -1,24 +1,19 @@
 {
-  "network": 
-  {
+  "network": {
     "host": "0.0.0.0",
     "port": 1502,
     "unitId": 1
   },
 
-  "registers": 
-  {
-    "temperature": 0
-  },
-
-  "simulators": 
-  {
-    "temperature": 
+  "simulators": [
     {
+      "name": "temperature_01",
+      "type": "temperature",
+      "register": 0,
       "enabled": true,
       "updateFrequencyMs": 1000,
       "min": 20.0,
       "max": 80.0
     }
-  }
+  ]
 }

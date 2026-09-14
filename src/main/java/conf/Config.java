@@ -4,13 +4,13 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.*;
 
 public class Config 
 {
 
     public NetworkConfig network;
-    public RegisterConfig registers;
-    public SimulatorConfig simulators;
+    public List<SimulatorSettings> simulators;
 
     public static Config load(String path) throws IOException
     {
@@ -33,14 +33,10 @@ public class Config
         if (network == null)
             throw new IllegalArgumentException("Missing 'network' configuration.");
         
-        if (registers == null)
-            throw new IllegalArgumentException("Missing 'registers' configuration.");
-        
-        if (simulators == null)
+        if (simulators == null || simulators.isEmpty())
             throw new IllegalArgumentException("Missing 'simulators' configuration.");
 
         validateNetwork();
-        validateRegisters();
         validateSimulators();
     }
 
@@ -56,28 +52,44 @@ public class Config
             throw new IllegalArgumentException("Network host cannot be empty.");
     }
 
-    private void validateRegisters() 
-    {
-        if (registers.temperature < 0)
-            throw new IllegalArgumentException("Temperature register address cannot be negative.");
-    }
-
     private void validateSimulators() 
     {
-        validateSimulator("temperature", simulators.temperature);
+        Set<Integer> usedRegisters = new HashSet<Integer>();
+        for(SimulatorSettings simulator : simulators)
+        {
+            if(simulator == null)
+                throw new IllegalArgumentException("Simulator configuration is null");
+            
+            validateSimulator(simulator);
+
+            if (!usedRegisters.add(simulator.register))
+                throw new IllegalArgumentException( "Duplicate register address: " + simulator.register );
+        }
     }
 
-    private void validateSimulator(String name, SimulatorSettings settings) 
-    {
+    private void validateSimulator( SimulatorSettings simulator) 
+    { 
+        String name = simulator.name;
+        if (name == null || name.isBlank())
+            throw new IllegalArgumentException("Simulator name cannot be empty.");
+        
+        if (simulator.type == null || simulator.type.isBlank())
+            throw new IllegalArgumentException("Simulator type cannot be empty: " + name);
 
-        if (settings == null)
-            throw new IllegalArgumentException("Missing '" + name + "' simulator configuration.");
+        if (simulator.register < 0)
+            throw new IllegalArgumentException("Simulator register cannot be negative: " + name);
+        
+        if (simulator.updateFrequencyMs <= 0)
+            throw new IllegalArgumentException("Update frequency must be greater than zero: " + name);
+        
+        if (simulator.min >= simulator.max)
+            throw new IllegalArgumentException("Minimum must be less than maximum: " + name);
+    }
 
-        if (settings.updateFrequencyMs <= 0)
-            throw new IllegalArgumentException(name + " update frequency must be greater than zero.");
-
-        if (settings.min >= settings.max)
-            throw new IllegalArgumentException(name + " minimum must be less than maximum.");
+    public int getRequiredRegisterCount() 
+    { 
+        int highestAddress = simulators.stream() .mapToInt(simulator -> simulator.register) .max() .orElse(-1); 
+        return highestAddress + 1; 
     }
 
 
@@ -88,20 +100,11 @@ public class Config
         public int unitId;
     }
 
-    public static class RegisterConfig 
-    {
-        //Add for each sim
-        public int temperature;
-    }
-
-    public static class SimulatorConfig 
-    {
-        //Add for each sim
-        public SimulatorSettings temperature;
-    }
-
     public static class SimulatorSettings 
     {
+        public String name;
+        public String type;
+        public int register;
         public boolean enabled;
         public long updateFrequencyMs;
         public double min;

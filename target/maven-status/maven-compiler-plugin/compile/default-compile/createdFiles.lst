@@ -1,8 +1,6 @@
 emulation\ModbusServer.class
-conf\Config$RegisterConfig.class
 emulation\MainEmulator.class
 conf\Config$SimulatorSettings.class
-conf\Config$SimulatorConfig.class
 emulation\RegisterMemory.class
 sim\TemperatureSim.class
 conf\Config.class
